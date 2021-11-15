@@ -1,9 +1,17 @@
-# Getting Started with Create React App
+# Brewery Map
+
+An interactive map for fetching Breweries from the Open Brewery API.
+
+## [Demo - Try it out!](https://blooming-thicket-58491.herokuapp.com/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 You will need to create a .env with the following vars:
 REACT_APP_MAPBOX_TOKEN
+
+Summary of project:
+
+Uses [Leaflet](https://leafletjs.com/)/[Leaflet React](https://react-leaflet.js.org/) for Map UI (and [MapBox](https://www.mapbox.com/maps) for much better looking Map TileLayer), and [Open Brewery API](https://www.openbrewerydb.org/) for the Breweries Data. [Water.css](https://watercss.kognise.dev/) and some custom styles (mainly flexbox) used so that the page looks good + mobile friendly. See issues for current challenges.
 
 ## Available Scripts
 
