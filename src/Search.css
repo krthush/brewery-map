@@ -1,6 +1,11 @@
 .search {
-  min-width: 300px;
+  width: 300px;
   margin: 0 1rem;
+}
+@media (max-width: 800px) {
+  .search {
+    width: auto;
+  }
 }
 .search-bar {
   display: flex;
@@ -22,7 +27,11 @@
   height: 24px;
 }
 .search-results {
+  max-height: 800px;
   flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-right: 5px;
 }
 .search-result {
   width: 100%;

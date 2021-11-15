@@ -3,7 +3,12 @@ import React from 'react';
 import './Search.css';
 import search from './search.svg';
 
-function Search() {
+interface Props {
+  breweries: any[];
+  onBreweryClicked: (brewery: any) => void;
+};
+
+function Search(props: Props) {
   return (
     <div className="search">
       <div className="search-bar">
@@ -11,9 +16,9 @@ function Search() {
         <button className="search-button" type="button"><img src={search} alt="search" className="search-button-icon"/></button>
       </div>
       <div className="search-results">
-        <button className="search-result" type="button">London</button>
-        <button className="search-result" type="button">Paris</button>
-        <button className="search-result" type="button">Berlin</button>
+        {props.breweries && props.breweries.map((brewery) =>
+          <button key={brewery.id} className="search-result" type="button" onClick={() => props.onBreweryClicked(brewery)}>{brewery.name}</button>
+        )}
       </div>
     </div>
   );
