@@ -8,11 +8,18 @@ interface Props {
   center: LatLngExpression;
   zoom: number
   breweries: any[];
+  clickedBreweryId?: string; 
 };
+
+interface BreweryMarker {
+  id: string;
+  marker: L.Marker
+}
 
 const MapController = (props: Props) => {
 
   const [breweryIds, setBreweryIds] = useState([] as any[]);
+  const [breweryMarkers, setBreweryMarkers] = useState([] as BreweryMarker[]);
 
   const map = useMap();
 
@@ -21,21 +28,37 @@ const MapController = (props: Props) => {
   },[props.center]);
 
   useEffect(()=> {
-    console.log(props.breweries);
     if (props.breweries) {
       props.breweries.forEach((brewery) => {
+        // Check if pin hasn't been added before & for now only add ones with lat/long
         if(!breweryIds.includes(brewery.id) && brewery.latitude && brewery.longitude) {
           breweryIds.push(brewery.id);
           const marker = L.marker([brewery.latitude, brewery.longitude]);
           let popContent = `<p><b>${brewery.name}</b></p>`;
           if (brewery.country) popContent += `<hr><p>${brewery.street}<br>${brewery.city}<br>${brewery.state}<br>${brewery.country}<br>${brewery.postal_code}<br></p>`
           if (brewery.website_url) popContent += `<hr><a href=${brewery.website_url}>${brewery.website_url}</a>`;
-          if (brewery.phone) popContent += `<i>${brewery.phone}</i>`;
+          if (brewery.phone) popContent += `<br><i>${brewery.phone}</i>`;
           marker.addTo(map).bindPopup(popContent);
+          // Add to breweryMarkers so that can be used easily by Search Result component
+          const breweryMarker = {
+            id: brewery.id as string,
+            marker: marker
+          }
+          setBreweryMarkers(breweryMarkers => [...breweryMarkers, breweryMarker]);
         }
       });
     }
   },[props.breweries]);
+
+  useEffect(()=> {
+    if (props.clickedBreweryId) {
+      breweryMarkers.forEach((breweryMarker)=> {
+        if (breweryMarker.id == props.clickedBreweryId) {
+          breweryMarker.marker.openPopup();
+        }
+      });
+    }
+  },[props.clickedBreweryId]);
 
   return null
 };

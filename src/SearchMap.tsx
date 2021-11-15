@@ -20,8 +20,11 @@ function SearchMap() {
 
   const [center, setCenter] = useState(defaultCenter);
 
+  const [clickedBreweryId, setClickedBreweryId] = useState(undefined as string | undefined);
+
   const breweryClicked = (brewery: any) => {
     if (brewery.latitude && brewery.longitude) {
+      setClickedBreweryId(brewery.id);
       setCenter([brewery.latitude, brewery.longitude]);
     } else {
       alert("No lat / long found. Will work on future update.");
@@ -30,7 +33,7 @@ function SearchMap() {
 
   return (
     <div className="search-map">
-      <Map breweries={breweries} defaultCenter={defaultCenter} defaultZoom={defaultZoom} center={center}/>
+      <Map breweries={breweries} defaultCenter={defaultCenter} defaultZoom={defaultZoom} center={center} clickedBreweryId={clickedBreweryId}/>
       <Search breweries={breweries} onBreweryClicked={breweryClicked}/>
     </div>
   );
