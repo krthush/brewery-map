@@ -11,9 +11,9 @@ REACT_APP_MAPBOX_TOKEN
 
 Summary of project:
 
-Uses [Leaflet](https://leafletjs.com/)/[Leaflet React](https://react-leaflet.js.org/) for Map UI (and [MapBox](https://www.mapbox.com/maps) for much better looking Map TileLayer). 
-[Open Brewery API](https://www.openbrewerydb.org/) alongside [SWR](https://swr.vercel.app/) (better caching/performance) is used for the Breweries Data. 
-[Water.css](https://watercss.kognise.dev/) and some custom styles (mainly flexbox) used so that the page looks good + mobile friendly. See issues for current challenges.
+Uses [Leaflet](https://leafletjs.com/)/[Leaflet React](https://react-leaflet.js.org/) for Map UI (and [MapBox](https://www.mapbox.com/maps) for much better looking Map TileLayer).<br /> 
+[Open Brewery API](https://www.openbrewerydb.org/) alongside [SWR](https://swr.vercel.app/) (better caching/performance) is used for the Breweries Data.<br /> 
+[Water.css](https://watercss.kognise.dev/) and some custom styles (mainly flexbox) used so that the page looks good + mobile friendly. See issues for current challenges.<br />
 
 ## Available Scripts
 
