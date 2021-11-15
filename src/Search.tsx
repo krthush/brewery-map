@@ -13,7 +13,7 @@ function Search(props: Props) {
     <div className="search">
       <div className="search-bar">
         <input className="search-input" type="email" name="email" id="email" placeholder="Search Breweries..."/>
-        <button className="search-button" type="button"><img src={search} alt="search" className="search-button-icon"/></button>
+        <button className="search-button" type="button"><img src={search} alt="search" className="search-button-icon" onClick={() => alert("Not working ATM. Will be added in future update.")}/></button>
       </div>
       <div className="search-results">
         {props.breweries && props.breweries.map((brewery) =>
