@@ -1,17 +1,13 @@
 .app {
   margin: 3rem 1rem;
 }
-.footer {
-  width: 100%;
-  height: 100px;
-  border-top: 1px solid #eaeaea;
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
 }
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+  }
 }
