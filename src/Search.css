@@ -1,0 +1,29 @@
+.search {
+  min-width: 300px;
+  margin: 0 1rem;
+}
+.search-bar {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+.search-input {
+  flex-grow: 1;
+}
+.search-button {
+  padding-left: 0;
+  padding-right: 0;
+  margin-right: 0;
+  width: 50px;
+}
+.search-button-icon {
+  width: 24px;
+  height: 24px;
+}
+.search-results {
+  flex-direction: column;
+}
+.search-result {
+  width: 100%;
+}

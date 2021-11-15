@@ -1,3 +1,7 @@
+.map {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
 .map-container { 
   height: 80vh; 
 }

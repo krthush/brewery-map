@@ -1,12 +1,13 @@
 import { LatLngExpression } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
 import './Map.css';
 
 const position = [51.505, -0.09] as LatLngExpression;
 
 function Map() {
   return (
-    <div>
+    <div className="map">
       <MapContainer center={position} zoom={13} className="map-container">
         {/* TODO: Don't reveal MAPBOX token here user */}
         <TileLayer
