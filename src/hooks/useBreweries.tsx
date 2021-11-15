@@ -6,10 +6,10 @@ const fetcher = (url: string) => axios.request({
   method: 'GET' as Method,
 }).then(res => res.data);
 
-function useBreweries (search?: string) {
+function useBreweries (page?: number) {
 
   let url = `https://api.openbrewerydb.org/breweries`;
-  if (search) url = `https://api.openbrewerydb.org/breweries/search?query=${search}`;
+  if (page) url = `https://api.openbrewerydb.org/breweries?page=${page}`;
 
   const { data, error } = useSWR([url], fetcher);
 

@@ -16,9 +16,11 @@ interface BreweryMarker {
   marker: L.Marker
 }
 
+let firstLoad = true;
+
 const MapController = (props: Props) => {
 
-  const [breweryIds, setBreweryIds] = useState([] as any[]);
+  const [breweryIds, setBreweryIds] = useState([] as number[]);
   const [breweryMarkers, setBreweryMarkers] = useState([] as BreweryMarker[]);
 
   const map = useMap();
@@ -29,15 +31,15 @@ const MapController = (props: Props) => {
 
   useEffect(()=> {
     if (props.breweries) {
-      props.breweries.forEach((brewery) => {
+      props.breweries.forEach((brewery, index) => {
         // Check if pin hasn't been added before & for now only add ones with lat/long
         if(!breweryIds.includes(brewery.id) && brewery.latitude && brewery.longitude) {
-          breweryIds.push(brewery.id);
+          setBreweryIds(prevState => [...prevState, brewery.id]);
           const marker = L.marker([brewery.latitude, brewery.longitude]);
           let popContent = `<p><b>${brewery.name}</b></p>`;
           if (brewery.country) popContent += `<hr><p>${brewery.street}<br>${brewery.city}<br>${brewery.state}<br>${brewery.country}<br>${brewery.postal_code}<br></p>`
           if (brewery.website_url) popContent += `<hr><a href=${brewery.website_url}>${brewery.website_url}</a>`;
-          if (brewery.phone) popContent += `<br><i>${brewery.phone}</i>`;
+          if (brewery.phone) popContent += `<br><i>Phone: ${brewery.phone}</i>`;
           marker.addTo(map).bindPopup(popContent);
           // Add to breweryMarkers so that can be used easily by Search Result component
           const breweryMarker = {
@@ -45,6 +47,11 @@ const MapController = (props: Props) => {
             marker: marker
           }
           setBreweryMarkers(breweryMarkers => [...breweryMarkers, breweryMarker]);
+          // If first load open pin
+          if (firstLoad && index === 0) {
+            firstLoad = false;
+            marker.openPopup();
+          }
         }
       });
     }
