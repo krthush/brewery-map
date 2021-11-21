@@ -1,5 +1,5 @@
 import { LatLngExpression } from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 import './Map.css';
 
@@ -10,14 +10,15 @@ interface Props {
   defaultCenter: LatLngExpression
   center: LatLngExpression;
   breweries: any[];
-  clickedBreweryId?: string; 
+  clickedBreweryId?: string;
+  zoomOut: (bounds: L.LatLngBounds) => void;
 };
 
 const Map = (props: Props) => {
   return (
     <div className="map">
       <MapContainer center={props.defaultCenter} zoom={props.defaultZoom} className="map-container">
-        <MapController breweries={props.breweries} center={props.center} zoom={props.defaultZoom} clickedBreweryId={props.clickedBreweryId}/>
+        <MapController breweries={props.breweries} center={props.center} zoom={props.defaultZoom} clickedBreweryId={props.clickedBreweryId} zoomOut={props.zoomOut}/>
         <TileLayer
           url={`https://api.mapbox.com/styles/v1/krthush/ckw0k00ne04jv16qxocrdtkcr/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
           attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors, <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>"

@@ -13,7 +13,7 @@ interface Props {
 function Search(props: Props) {
 
   const handleScroll = (e: any) => {
-    const bottom = Math.abs(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight)) <= 1;
+    const bottom = Math.abs(e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight)) <= 500;
     if (bottom) {
       props.onScrollEnd();
     }

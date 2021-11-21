@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LatLngExpression } from 'leaflet';
 
 import './SearchMap.css';
@@ -17,8 +17,10 @@ function SearchMap() {
 
   // Setup for initial query using SWR (uses cached data)
   const [page, setPage] = useState(undefined as number | undefined);
-  const { breweries: loadedBreweries } = useBreweries(page);
+  const [city, setCity] = useState(undefined as string | undefined);
+  const { breweries: loadedBreweries, isLoading: breweriesLoading } = useBreweries(page, city);
   const [breweries, setBreweries] = useState([] as any[]);
+  const [breweryIds, setBreweryIds] = useState([] as number[]);
 
   // TODO: setup search input, bubble up from Search component
   const [search, setSearch] = useState(undefined as string | undefined);
@@ -27,18 +29,25 @@ function SearchMap() {
   const [clickedBreweryId, setClickedBreweryId] = useState(undefined as string | undefined);
 
   // Transfer over loadedBreweries to breweries state containing all breweries
-  let breweriesFetched = false;
   const [loading, setLoading] = useState(false);
   useEffect(()=> {
-    if (loadedBreweries && !breweriesFetched) {
-      console.log(breweriesFetched);
-      breweriesFetched = true;
+    if (loadedBreweries) {
       loadedBreweries.forEach((brewery) => {
-        setBreweries(prevState => [...prevState, brewery]);
+        if(!breweryIds.includes(brewery.id)) {
+          setBreweryIds(prevState => [...prevState, brewery.id]);
+          setBreweries(prevState => [...prevState, brewery]);
+        }
       });
       setLoading(false);
     }
+    console.log(breweries);
   },[loadedBreweries]);
+  useEffect(()=> {
+    if (breweriesLoading) {
+      setLoading(true);
+    }
+  },[breweriesLoading]);
+
 
   const breweryClicked = (brewery: any) => {
     if (brewery.latitude && brewery.longitude) {
@@ -49,10 +58,10 @@ function SearchMap() {
     }
   }
 
-  const loadMoreBreweries = () => {
+  const scrollLoadBreweries = () => {
+    setCity(undefined);
     if (!loading) {
       setLoading(true);
-      breweriesFetched = false;
       if (page) {
         setPage(page + 1);
       } else {
@@ -61,10 +70,20 @@ function SearchMap() {
     }
   };
 
+  const zoomLoadBreweries = (bounds: L.LatLngBounds) => {
+    breweries.forEach((brewery) => {
+      if (brewery.latitude && brewery.longitude) {
+        if ((bounds.getWest() < brewery.longitude && brewery.longitude < bounds.getEast()) && (bounds.getSouth() < brewery.latitude && brewery.latitude < bounds.getNorth())) {
+          if (brewery.city) setCity(brewery.city);
+        }
+      }
+    });
+  }
+
   return (
     <div className="search-map">
-      <Map breweries={breweries} defaultCenter={defaultCenter} defaultZoom={defaultZoom} center={center} clickedBreweryId={clickedBreweryId}/>
-      <Search breweries={breweries} onBreweryClicked={breweryClicked} onScrollEnd={loadMoreBreweries} loading={loading}/>
+      <Map breweries={breweries} defaultCenter={defaultCenter} defaultZoom={defaultZoom} center={center} clickedBreweryId={clickedBreweryId} zoomOut={zoomLoadBreweries}/>
+      <Search breweries={breweries} onBreweryClicked={breweryClicked} onScrollEnd={scrollLoadBreweries} loading={loading}/>
     </div>
   );
 

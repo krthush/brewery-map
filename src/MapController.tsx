@@ -1,6 +1,6 @@
 import { LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
-import { useMap } from "react-leaflet";
+import { useMapEvents } from "react-leaflet";
 
 import L from "leaflet";
 
@@ -8,7 +8,8 @@ interface Props {
   center: LatLngExpression;
   zoom: number
   breweries: any[];
-  clickedBreweryId?: string; 
+  clickedBreweryId?: string;
+  zoomOut: (bounds: L.LatLngBounds) => void;
 };
 
 interface BreweryMarker {
@@ -23,7 +24,11 @@ const MapController = (props: Props) => {
   const [breweryIds, setBreweryIds] = useState([] as number[]);
   const [breweryMarkers, setBreweryMarkers] = useState([] as BreweryMarker[]);
 
-  const map = useMap();
+  const map = useMapEvents({
+    zoomend: (e) => {
+      props.zoomOut(map.getBounds());
+    },
+  });
 
   useEffect(()=> {
     map.setView(props.center, props.zoom);
