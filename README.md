@@ -2,7 +2,7 @@
 
 An interactive map for fetching Breweries from the Open Brewery API.
 
-## [Demo - Try it out!](https://blooming-thicket-58491.herokuapp.com/)
+## [Demo - Try it out!](https://brewery-map.vercel.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
